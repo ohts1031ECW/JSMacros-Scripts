@@ -18,6 +18,7 @@ declare const file: Packages.java.io.File;
 declare namespace Events {
 
     interface BaseEvent extends JavaObject {
+        stopListener: MethodWrapper<unknown, unknown, void, any>;
 
         getEventName(): string;
 
