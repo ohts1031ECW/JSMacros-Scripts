@@ -1,0 +1,1 @@
+const InscriberSlots:number[] = [44,48,52,56];
