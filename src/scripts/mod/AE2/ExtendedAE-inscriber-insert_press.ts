@@ -1,6 +1,7 @@
 const InscriberSlots: number[] = [40, 44, 48, 52];
 const EXInscriber_ScreenName = "com.glodblock.github.extendedae.client.gui.GuiExInscriber";
-const insertItem: string = "ae2:silicon_press";
+const insertItem: string = 'ae2:logic_processor_press';
+const Delay:number = 2;
 
 Chat.log("Auto Insert press Enabled");
 
@@ -32,7 +33,7 @@ const screen_event: IEventListener = JsMacros.on("OpenScreen", JavaWrapper.metho
         }
 
         //wait 1tick
-        Client.waitTick(1);
+        Client.waitTick(Delay);
 
 
         //put inscriber press
@@ -44,11 +45,11 @@ const screen_event: IEventListener = JsMacros.on("OpenScreen", JavaWrapper.metho
                 ScreenButton.click(true);
             }
         }
-        Client.waitTick(1);
+        Client.waitTick(Delay);
     }
     inventory.click(press_slot);
     //close screen
-    Client.waitTick(2);
+    Client.waitTick(Delay);
     scr.screen.close();
 }))
 

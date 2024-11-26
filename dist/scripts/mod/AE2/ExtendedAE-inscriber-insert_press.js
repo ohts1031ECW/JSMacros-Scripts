@@ -1,7 +1,8 @@
 "use strict";
 const InscriberSlots = [40, 44, 48, 52];
 const EXInscriber_ScreenName = "com.glodblock.github.extendedae.client.gui.GuiExInscriber";
-const insertItem = "ae2:silicon_press";
+const insertItem = 'ae2:logic_processor_press';
+const Delay = 2;
 Chat.log("Auto Insert press Enabled");
 //openscreen event
 const screen_event = JsMacros.on("OpenScreen", JavaWrapper.methodToJavaAsync(async (scr) => {
@@ -24,7 +25,7 @@ const screen_event = JsMacros.on("OpenScreen", JavaWrapper.methodToJavaAsync(asy
             inventory.click(press_slot);
         }
         //wait 1tick
-        Client.waitTick(1);
+        Client.waitTick(Delay);
         //put inscriber press
         inventory.click(InscriberSlots[count]);
         //next inscription job
@@ -33,11 +34,11 @@ const screen_event = JsMacros.on("OpenScreen", JavaWrapper.methodToJavaAsync(asy
                 ScreenButton.click(true);
             }
         }
-        Client.waitTick(1);
+        Client.waitTick(Delay);
     }
     inventory.click(press_slot);
     //close screen
-    Client.waitTick(2);
+    Client.waitTick(Delay);
     scr.screen.close();
 }));
 //Chat.log(JsMacros.listeners("OpenContainer").toString())
