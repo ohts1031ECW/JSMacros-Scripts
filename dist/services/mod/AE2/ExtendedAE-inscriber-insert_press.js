@@ -1,8 +1,8 @@
 "use strict";
 const InscriberSlots = [40, 44, 48, 52];
 const EXInscriber_ScreenName = "com.glodblock.github.extendedae.client.gui.GuiExInscriber";
-const insertItem = 'ae2:logic_processor_press';
-const Delay = 2;
+const insertItem = 'megacells:accumulation_processor_press';
+const Delay = 5;
 Chat.log("Auto Insert press Enabled");
 //openscreen event
 const screen_event = JsMacros.on("OpenScreen", JavaWrapper.methodToJavaAsync(async (scr) => {

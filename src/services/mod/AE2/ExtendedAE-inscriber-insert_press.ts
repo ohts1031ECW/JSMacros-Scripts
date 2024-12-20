@@ -1,7 +1,7 @@
 const InscriberSlots: number[] = [40, 44, 48, 52];
 const EXInscriber_ScreenName = "com.glodblock.github.extendedae.client.gui.GuiExInscriber";
-const insertItem: string = 'ae2:logic_processor_press';
-const Delay:number = 2;
+const insertItem: string = 'megacells:accumulation_processor_press';
+const Delay:number = 5;
 
 Chat.log("Auto Insert press Enabled");
 
