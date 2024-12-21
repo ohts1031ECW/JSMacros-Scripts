@@ -19,7 +19,7 @@ for (const paper_slot of paper) {
         //pick result item
         Client.waitTick(resultpick_delay);
         inventory.quick(0);
-        Client.waitTick(delay);
+        Client.waitTick(resultpick_delay);
     }
     else {
         Chat.log("Not enough gunpowders to craft.");
