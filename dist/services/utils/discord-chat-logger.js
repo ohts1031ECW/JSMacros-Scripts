@@ -10,7 +10,7 @@ const msgEvent = JsMacros.on("RecvMessage", JavaWrapper.methodToJava((data) => {
     const RequestBody = {
         "content": message,
     };
-    Chat.log(JSON.stringify(RequestBody));
+    //Chat.log(JSON.stringify(RequestBody))
     WebHookRequest.post(JSON.stringify(RequestBody));
 }));
 event.stopListener = JavaWrapper.methodToJava(() => {
