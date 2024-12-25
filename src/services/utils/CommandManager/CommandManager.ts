@@ -37,6 +37,7 @@ if (Modules !== null) {
                 for(const Arg in Module.args){
                     Args.push(args.getArg(Arg))
                 }
+                
                 Module.execute(Args);
             }))
 
