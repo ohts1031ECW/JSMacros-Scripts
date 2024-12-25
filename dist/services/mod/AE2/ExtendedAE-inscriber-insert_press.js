@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const InscriberSlots = [40, 44, 48, 52];
 const EXInscriber_ScreenName = "com.glodblock.github.extendedae.client.gui.GuiExInscriber";
 const insertItem = 'megacells:accumulation_processor_press';

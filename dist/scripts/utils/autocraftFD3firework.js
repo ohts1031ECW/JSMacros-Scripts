@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 Chat.log("started auto craft firwork.");
 const delay = 2;
 const resultpick_delay = 10;
