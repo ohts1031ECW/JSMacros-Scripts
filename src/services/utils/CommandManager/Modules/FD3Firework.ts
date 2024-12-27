@@ -5,9 +5,9 @@ export default {
         "resultpickdelay": "int"
     },
 
-    execute: async (args: any[]) => {
-        const delay:number = args[0];
-        const resultpick_delay:number = args[1];
+    execute: async (Args: any[]) => {
+        const delay:number = Args[0];
+        const resultpick_delay:number = Args[1];
 
         const inventory: Inventory = Player.openInventory();
         inventory.openGui();

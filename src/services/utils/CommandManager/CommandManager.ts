@@ -37,7 +37,7 @@ if (Modules !== null) {
                 for(const Arg in Module.args){
                     Args.push(args.getArg(Arg))
                 }
-                
+                Client.waitTick(2);
                 Module.execute(Args);
             }))
 

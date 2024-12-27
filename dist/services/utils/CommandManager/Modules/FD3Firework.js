@@ -6,9 +6,9 @@ exports.default = {
         "delay": "int",
         "resultpickdelay": "int"
     },
-    execute: async (args) => {
-        const delay = args[0];
-        const resultpick_delay = args[1];
+    execute: async (Args) => {
+        const delay = Args[0];
+        const resultpick_delay = Args[1];
         const inventory = Player.openInventory();
         inventory.openGui();
         const paper = inventory.findItem("minecraft:paper");

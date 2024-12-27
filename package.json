@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "compile": "del dist && tsc",
-
-    "test": "nodemon"
+    "compile": "tsc",
+    "recompile": "rm -r dist && tsc",
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
