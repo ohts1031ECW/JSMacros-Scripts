@@ -40,8 +40,11 @@ if (!FS.exists(ModuleDirPath)) {
     //TODO: ADD chat log
     FS.makeDir(ModuleDirPath);
 }
-const Modules = FS.list(ModuleDirPath);
-if (Modules !== null) {
+//filter modules with .js extension
+const Modules = FS.list(ModuleDirPath)?.filter((file) => {
+    return file.endsWith("js");
+});
+if (Modules !== undefined) {
     for (const ModuleFile of Modules) {
         //import modules
         Promise.resolve(`${ModuleDirPath + ModuleFile}`).then(s => __importStar(require(s))).then((data) => {
@@ -50,23 +53,35 @@ if (Modules !== null) {
             //register command args
             for (const Arg in Module.args) {
                 switch (Module.args[Arg]) {
-                    case "int": {
-                        CommandBuilder.intArg(Arg);
-                        break;
+                    case "literal":
+                        {
+                            CommandBuilder.literalArg(Arg);
+                            break;
+                        }
+                        ;
+                    case "boolean": {
+                        CommandBuilder.booleanArg(Arg);
                     }
+                    case "int":
+                        {
+                            CommandBuilder.intArg(Arg);
+                            break;
+                        }
+                        ;
                 }
             }
             //register executes
             CommandBuilder.executes(JavaWrapper.methodToJavaAsync(async (args) => {
-                const Args = [];
+                const Args = {};
                 for (const Arg in Module.args) {
-                    Args.push(args.getArg(Arg));
+                    Args[Arg] = args.getArg(Arg);
                 }
                 Client.waitTick(2);
                 Module.execute(Args);
             }));
             CommandBuilder.register();
             RegisterdCommand.push(Module.name);
+            Chat.log(`${Module.name} was loaded`);
         });
     }
 }

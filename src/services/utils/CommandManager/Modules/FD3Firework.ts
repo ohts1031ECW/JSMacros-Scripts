@@ -1,14 +1,17 @@
+import { isDefaultClause } from "typescript";
+import { ArgsType } from "../types";
+
 export default {
     name: "AutoCraftFD3Firework",
+    argrequire: false,
     args: {
         "delay": "int",
         "resultpickdelay": "int"
     },
 
-    execute: async (Args: any[]) => {
-        const delay:number = Args[0];
-        const resultpick_delay:number = Args[1];
-
+    execute: async (Args: ArgsType) => {
+        const delay: number = Args.delay;
+        const resultpick_delay: number = Args.resultpickdelay;
         const inventory: Inventory = Player.openInventory();
         inventory.openGui();
 

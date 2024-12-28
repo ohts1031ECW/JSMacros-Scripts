@@ -1,3 +1,6 @@
+import { showArray } from "../../../lib/dev";
+import { ArgsType } from "./types";
+
 const CMD_Manager: CommandManager = Chat.getCommandManager();
 const ModuleDirPath: string = __dirname + "/Modules/"
 
@@ -8,12 +11,15 @@ if (!FS.exists(ModuleDirPath)) {
     FS.makeDir(ModuleDirPath);
 }
 
-const Modules = FS.list(ModuleDirPath);
+//filter modules with .js extension
+const Modules = FS.list(ModuleDirPath)?.filter((file)=>{
+    return file.endsWith("js")
+})
 
-if (Modules !== null) {
+
+if (Modules !== undefined) {
 
     for (const ModuleFile of Modules) {
-
         //import modules
         import(ModuleDirPath + ModuleFile).then((data) => {
             const Module = data.default;
@@ -24,18 +30,26 @@ if (Modules !== null) {
             //register command args
             for (const Arg in Module.args) {
                 switch (Module.args[Arg]) {
+                    case "literal": {
+                        CommandBuilder.literalArg(Arg);
+                        break;
+                    };
+                    case "boolean":{
+                        CommandBuilder.booleanArg(Arg);
+                    }
                     case "int": {
                         CommandBuilder.intArg(Arg);
                         break;
-                    }
+                    };
+
                 }
             }
 
             //register executes
             CommandBuilder.executes(JavaWrapper.methodToJavaAsync(async (args) => {
-                const Args = [];
+                const Args:ArgsType = {};
                 for(const Arg in Module.args){
-                    Args.push(args.getArg(Arg))
+                    Args[Arg] = args.getArg(Arg);
                 }
                 Client.waitTick(2);
                 Module.execute(Args);
@@ -45,6 +59,7 @@ if (Modules !== null) {
             CommandBuilder.register()
             RegisterdCommand.push(Module.name);
 
+            Chat.log(`${Module.name} was loaded`)
         })
 
     }

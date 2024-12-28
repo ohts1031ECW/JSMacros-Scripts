@@ -2,13 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     name: "AutoCraftFD3Firework",
+    argrequire: false,
     args: {
         "delay": "int",
         "resultpickdelay": "int"
     },
     execute: async (Args) => {
-        const delay = Args[0];
-        const resultpick_delay = Args[1];
+        const delay = Args.delay;
+        const resultpick_delay = Args.resultpickdelay;
         const inventory = Player.openInventory();
         inventory.openGui();
         const paper = inventory.findItem("minecraft:paper");
