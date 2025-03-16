@@ -1,9 +1,11 @@
 import { showArray } from "../../../lib/dev";
 import { ArgsType, CommandTypeBase } from "./types";
 
-const CMD_Manager: CommandManager = Chat.getCommandManager();
-const ModuleDirPath: string = __dirname + "/Modules/"
 
+const ModuleDirPath: string = __dirname + "/Modules/"
+const Prefix:string = "JSM"
+
+const CMD_Manager: CommandManager = Chat.getCommandManager();
 
 let RegisterdCommand: string[] = [];
 if (!FS.exists(ModuleDirPath)) {
@@ -25,7 +27,7 @@ if (Modules !== undefined) {
             const Module: CommandTypeBase = data.command;
 
 
-            const CommandBuilder: CommandBuilder = CMD_Manager.createCommandBuilder(Module.name);
+            const CommandBuilder: CommandBuilder = CMD_Manager.createCommandBuilder(Prefix+ ":" +Module.name);
 
             //register command args
             for (const Arg in Module.args) {

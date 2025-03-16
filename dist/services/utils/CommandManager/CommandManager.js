@@ -33,8 +33,9 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const CMD_Manager = Chat.getCommandManager();
 const ModuleDirPath = __dirname + "/Modules/";
+const Prefix = "JSM";
+const CMD_Manager = Chat.getCommandManager();
 let RegisterdCommand = [];
 if (!FS.exists(ModuleDirPath)) {
     //TODO: ADD chat log
@@ -49,7 +50,7 @@ if (Modules !== undefined) {
         //import modules
         Promise.resolve(`${ModuleDirPath + ModuleFile}`).then(s => __importStar(require(s))).then((data) => {
             const Module = data.command;
-            const CommandBuilder = CMD_Manager.createCommandBuilder(Module.name);
+            const CommandBuilder = CMD_Manager.createCommandBuilder(Prefix + ":" + Module.name);
             //register command args
             for (const Arg in Module.args) {
                 //Chat.log(`Arg: ${Arg}`)
