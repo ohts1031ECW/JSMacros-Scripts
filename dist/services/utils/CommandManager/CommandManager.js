@@ -48,26 +48,40 @@ if (Modules !== undefined) {
     for (const ModuleFile of Modules) {
         //import modules
         Promise.resolve(`${ModuleDirPath + ModuleFile}`).then(s => __importStar(require(s))).then((data) => {
-            const Module = data.default;
+            const Module = data.command;
             const CommandBuilder = CMD_Manager.createCommandBuilder(Module.name);
             //register command args
             for (const Arg in Module.args) {
-                switch (Module.args[Arg]) {
+                //Chat.log(`Arg: ${Arg}`)
+                Chat.log(`Argcontent: ${JSON.stringify(Module.args[Arg])}`);
+                let CommandBuilder_Arg;
+                switch (Module.args[Arg].type) {
                     case "literal":
                         {
-                            CommandBuilder.literalArg(Arg);
+                            CommandBuilder_Arg = CommandBuilder.literalArg(Arg);
                             break;
                         }
                         ;
                     case "boolean": {
-                        CommandBuilder.booleanArg(Arg);
+                        CommandBuilder_Arg = CommandBuilder.booleanArg(Arg);
+                        break;
                     }
                     case "int":
                         {
-                            CommandBuilder.intArg(Arg);
+                            CommandBuilder_Arg = CommandBuilder.intArg(Arg);
                             break;
                         }
                         ;
+                    case "greedyString": {
+                        CommandBuilder_Arg = CommandBuilder.greedyStringArg(Arg);
+                    }
+                }
+                //add sugestion
+                const Suggest = Module.args[Arg].suggest;
+                if (typeof Suggest !== "undefined") {
+                    CommandBuilder_Arg.suggest(JavaWrapper.methodToJava((ctx, builder) => {
+                        Suggest(ctx, builder);
+                    }));
                 }
             }
             //register executes

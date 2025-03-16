@@ -1,12 +1,20 @@
-import { isDefaultClause } from "typescript";
-import { ArgsType } from "../types";
+import { ArgsType, CommandTypeBase } from "../types";
 
-export default {
+export const command:CommandTypeBase = {
     name: "AutoCraftFD3Firework",
-    argrequire: false,
     args: {
-        "delay": "int",
-        "resultpickdelay": "int"
+        "delay": {
+            type: "int",
+            suggest: (ctx,builder)=>{
+                builder.suggest(2);
+            } 
+        },
+        "resultpickdelay": {
+            type: "int",
+            suggest: (ctx,builder)=>{
+                builder.suggest(5);
+            } 
+        }
     },
 
     execute: async (Args: ArgsType) => {

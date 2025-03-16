@@ -1,11 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+exports.command = void 0;
+exports.command = {
     name: "AutoCraftFD3Firework",
-    argrequire: false,
     args: {
-        "delay": "int",
-        "resultpickdelay": "int"
+        "delay": {
+            type: "int",
+            suggest: (ctx, builder) => {
+                builder.suggest(2);
+            }
+        },
+        "resultpickdelay": {
+            type: "int",
+            suggest: (ctx, builder) => {
+                builder.suggest(5);
+            }
+        }
     },
     execute: async (Args) => {
         const delay = Args.delay;
