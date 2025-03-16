@@ -30,7 +30,7 @@ if (Modules !== undefined) {
             //register command args
             for (const Arg in Module.args) {
                 //Chat.log(`Arg: ${Arg}`)
-                Chat.log(`Argcontent: ${JSON.stringify(Module.args[Arg])}`)
+                //Chat.log(`Argcontent: ${JSON.stringify(Module.args[Arg])}`)
                 let CommandBuilder_Arg;
                 switch (Module.args[Arg].type) {
                     case "literal": {
