@@ -1,5 +1,5 @@
 import { showArray } from "../../../lib/dev";
-import { ArgsType } from "./types";
+import { ArgsType, CommandTypeBase } from "./types";
 
 const CMD_Manager: CommandManager = Chat.getCommandManager();
 const ModuleDirPath: string = __dirname + "/Modules/"
@@ -12,7 +12,7 @@ if (!FS.exists(ModuleDirPath)) {
 }
 
 //filter modules with .js extension
-const Modules = FS.list(ModuleDirPath)?.filter((file)=>{
+const Modules = FS.list(ModuleDirPath)?.filter((file) => {
     return file.endsWith("js")
 })
 
@@ -22,43 +22,58 @@ if (Modules !== undefined) {
     for (const ModuleFile of Modules) {
         //import modules
         import(ModuleDirPath + ModuleFile).then((data) => {
-            const Module = data.default;
+            const Module: CommandTypeBase = data.command;
 
 
             const CommandBuilder: CommandBuilder = CMD_Manager.createCommandBuilder(Module.name);
 
             //register command args
             for (const Arg in Module.args) {
-                switch (Module.args[Arg]) {
+                //Chat.log(`Arg: ${Arg}`)
+                Chat.log(`Argcontent: ${JSON.stringify(Module.args[Arg])}`)
+                let CommandBuilder_Arg;
+                switch (Module.args[Arg].type) {
                     case "literal": {
-                        CommandBuilder.literalArg(Arg);
+                        CommandBuilder_Arg = CommandBuilder.literalArg(Arg);
                         break;
                     };
-                    case "boolean":{
-                        CommandBuilder.booleanArg(Arg);
+                    case "boolean": {
+                        CommandBuilder_Arg = CommandBuilder.booleanArg(Arg);
+                        break;
                     }
                     case "int": {
-                        CommandBuilder.intArg(Arg);
+                        CommandBuilder_Arg = CommandBuilder.intArg(Arg);
                         break;
                     };
+                    case "greedyString": {
+                        CommandBuilder_Arg = CommandBuilder.greedyStringArg(Arg);
+                    }
 
+                }
+
+                //add sugestion
+                const Suggest = Module.args[Arg].suggest
+                if (typeof Suggest !== "undefined") {
+                    CommandBuilder_Arg.suggest(
+                        JavaWrapper.methodToJava((ctx: CommandContextHelper, builder: SuggestionsBuilderHelper) => {
+                            Suggest(ctx, builder)
+                        })
+                    )
                 }
             }
 
             //register executes
             CommandBuilder.executes(JavaWrapper.methodToJavaAsync(async (args) => {
-                const Args:ArgsType = {};
-                for(const Arg in Module.args){
+                const Args: ArgsType = {};
+                for (const Arg in Module.args) {
                     Args[Arg] = args.getArg(Arg);
                 }
                 Client.waitTick(2);
                 Module.execute(Args);
             }))
 
-
             CommandBuilder.register()
             RegisterdCommand.push(Module.name);
-
             Chat.log(`${Module.name} was loaded`)
         })
 
@@ -70,7 +85,7 @@ if (Modules !== undefined) {
 
 
 event.stopListener = JavaWrapper.methodToJava(() => {
-    for(const commandName of RegisterdCommand){
+    for (const commandName of RegisterdCommand) {
         CMD_Manager.unregisterCommand(commandName);
     }
 })
